@@ -15,7 +15,7 @@ class TenantManager
         //
     }
 
-    public function setCurrent(Tenant $tenant): void {
+    public function set(Tenant $tenant): void {
         $this->tenant = $tenant;
     }
 
@@ -31,7 +31,7 @@ class TenantManager
         return $this->tenant !== null;
     }
 
-    public function forget(): void {
+    public function clear(): void {
         $this->tenant = null;
     }
 }

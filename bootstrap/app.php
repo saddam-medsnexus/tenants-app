@@ -15,9 +15,6 @@ return Application::configure(basePath: dirname(__DIR__))
             App\Http\Middleware\IdentifyTenant::class,
         ]);
     })
-    ->withBindings([
-        App\Services\TenantManager::class => fn () => new App\Services\TenantManager(),
-    ])
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tenant;
-use Illuminate\Http\Request;
+use App\Services\TenantManager;
 
 class DashboardController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function __invoke(TenantManager $tenantManager)
     {
-        $tenant = app(Tenant::class);
         return response()->json([
-            'tenant' => $tenant->name,
-            'slug' => $tenant->slug
+            'tenant' => $tenantManager->current()?->name,
+            'slug' => $tenantManager->current()?->slug
         ]);
     }
 }

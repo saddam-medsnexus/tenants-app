@@ -11,14 +11,17 @@ class TenantResolver
     /**
      * Create a new class instance.
      */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(
+        protected TenantManager $tenantManager
+    ){}
 
     public function resolve(Request $request): ?Tenant {
-        return $this->resolveByHost($request)
+        $tenant = $this->resolveByHost($request)
             ?? $this->resolveByPath($request);
+        if($tenant){
+            $this->tenantManager->set($tenant);
+        }
+        return $tenant;
     }
 
     public function resolveByHost(Request $request): ?Tenant{

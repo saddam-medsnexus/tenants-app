@@ -2,8 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Tenant;
-use App\Services\TenantManager;
 use App\Services\TenantResolver;
 use Closure;
 use Illuminate\Http\Request;
@@ -12,8 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 class IdentifyTenant
 {
     public function __construct(
-        protected TenantResolver $resolver,
-        protected TenantManager $manager
+        protected TenantResolver $resolver
     ){}
     /**
      * Handle an incoming request.
@@ -21,11 +18,10 @@ class IdentifyTenant
      * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response {
-        $tenant = $this->resolver->resolve($request);
-        if(! $tenant){
+        if(! $this->resolver->resolve($request)){
             abort(404, 'Tenant not found.');
         }
-        app()->instance(Tenant::class, $tenant);
+
         return $next($request);
     }
 }
